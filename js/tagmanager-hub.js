@@ -9,7 +9,6 @@ require({
     }],
     paths: {
         "knockout": "./libs/knockout",
-        "text": "./libs/text",
         "whatwg-fetch": "./libs/whatwg-fetch",
         "sdk": "./libs/sdk",
         "api": "./libs/api"
