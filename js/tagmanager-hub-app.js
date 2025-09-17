@@ -4,7 +4,8 @@ define([
     "knockout",
     "sdk",
     "api/index",
-    "api/WorkItemTracking/index"
+    "api/WorkItemTracking/index",
+    "components/header"
 ], (module, require, ko, sdk, api, witApi) => {
     //#region [ Fields ]
 

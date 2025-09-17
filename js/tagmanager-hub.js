@@ -4,6 +4,9 @@ require({
         name: "my",
         location: "./"
     }, {
+        name: "components",
+        location: "./components"
+    }, {
         name: "img",
         location: "../img"
     }],
