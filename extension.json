@@ -54,7 +54,7 @@
         "targets": [
             "ms.vss-web.managed-features-onprem"
         ],
-        "description": "Tag Manager feature adds the new Tag Manger hub to the Boards hub.",
+        "description": "Tag Manager feature adds the new Tags hub to the Boards hub.",
         "properties": {
             "name": "Tag Manager",
             "userConfigurable": true,
@@ -73,7 +73,7 @@
         "properties": {
             "uri": "html/#{Extension.Id}#-hub.html?v=#{Project.AssemblyInfo.Version}#",
             "name": "Tags",
-            "iconName": "Equalizer",
+            "iconName": "Tag",
             "order": 90
         },
         "constraints": [{
