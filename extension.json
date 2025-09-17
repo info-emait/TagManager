@@ -1,0 +1,100 @@
+{
+    "manifestVersion": 1,
+    "id": "#{Extension.Id}#",
+    "version": "#{Project.AssemblyInfo.Version}#",
+    "name": "Tag Manager",
+    "description": "Tag Manager is an extension for managing and editing tags in Azure DevOps. It helps users organize, update, and maintain tags efficiently across projects and work items.",
+    "publisher": "#{Extension.Publisher}#",
+    "public": true,
+    "categories": [
+        "Azure Boards"
+    ], 
+    "targets": [{
+        "id": "Microsoft.VisualStudio.Services"
+    }],
+    "icons": {
+        "default": "img/logo.png"
+    },
+    "screenshots": [{
+        "path": "img/screenshot1.png"
+    }, {
+        "path": "img/screenshot2.png"
+    }, {
+        "path": "img/screenshot3.png"
+    }, {
+        "path": "img/screenshot4.png"
+    }],
+    "tags": [
+        "Tag", "Manager", "Wit"
+    ],
+    "links": {
+        "support": {
+            "uri": "mailto:info.emait@gmail.com"
+        }
+    },
+    "repository": {
+        "type": "git",
+        "uri": "https://github.com/info-emait/TagManager"
+    },
+    "content": {
+        "details": {
+            "path": "Overview.md"
+        },
+        "license": {
+            "path": "License.md"
+        }
+    },
+    "branding": {
+        "color": "#212121",
+        "theme": "dark"
+    },
+    "contributions": [{
+        "id": "#{Extension.Id}#-feature",
+        "type": "ms.vss-web.feature",
+        "targets": [
+            "ms.vss-web.managed-features-onprem"
+        ],
+        "description": "Tag Manager feature adds the new Tag Manger hub to the Boards hub.",
+        "properties": {
+            "name": "Tag Manager",
+            "userConfigurable": true,
+            "hostConfigurable": true,
+            "defaultState": true,
+            "hostScopes": [
+                "project", null
+            ]
+        }
+    }, {
+        "id": "#{Extension.Id}#-hub",
+        "type": "ms.vss-web.hub",
+        "targets": [
+            "ms.vss-work-web.work-hub-group"
+        ],
+        "properties": {
+            "uri": "html/#{Extension.Id}#-hub.html?v=#{Project.AssemblyInfo.Version}#",
+            "name": "Tags",
+            "iconName": "Equalizer",
+            "order": 90
+        },
+        "constraints": [{
+            "name": "Feature",
+            "properties": {
+                "featureId": "#{Extension.Publisher}#.#{Extension.Id}#.#{Extension.Id}#-feature"
+            }
+        }]
+    }],
+    "files": [
+        { "path": "html", "addressable": true },
+        { "path": "js", "addressable": true },
+        { "path": "css", "addressable": true },
+        { "path": "img", "addressable": true },
+        { "path": "fonts/AzDevMDL2.woff", "addressable": true },
+        { "path": "fonts/fabric-icons.woff", "addressable": true },
+        { "path": "fonts/fluent-filled-v1.1.293.woff2", "addressable": true, "contentType": "application/x-font-woff2" },
+        { "path": "fonts/fluent-regular-v1.1.293.woff2", "addressable": true, "contentType": "application/x-font-woff2" }
+    ],
+    "scopes":[
+        "vso.work",
+        "vso.work_write"
+    ]
+}
