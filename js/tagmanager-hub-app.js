@@ -5,7 +5,8 @@ define([
     "sdk",
     "api/index",
     "api/WorkItemTracking/index",
-    "components/header"
+    "components/header",
+    "components/zerodata"
 ], (module, require, ko, sdk, api, witApi) => {
     //#region [ Fields ]
 
@@ -34,6 +35,7 @@ define([
         this.path = null;
 
         this.isLoading = ko.observable(true);
+        this.zero = ko.observable(null);
         this.tags = ko.observableArray([]);
     };
 
@@ -58,6 +60,7 @@ define([
             })
             .then((tags) => {
                 if (!tags.count || !tags.value.length) {
+                    this.zero({ title: "Missing tags", text: "There are not any tags in this project." });
                     return;
                 }
 

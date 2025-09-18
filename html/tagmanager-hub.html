@@ -9,7 +9,9 @@
         <div class="tagmanager-hub__page bolt-page v-scroll-auto flex-column">
             <my-header params="text: 'Tags'"></my-header>
             <div class="page-content flex-column flex-grow">
-                TODO
+                <div data-bind="with: zero">
+                    <my-zerodata params="title: title, text: text"></my-zerodata>
+                </div>
             </div>
         </div>
         <script data-main="../js/#{Extension.Id}#-hub.js?v=#{Project.AssemblyInfo.Version}#" src="../js/libs/require.js"></script>
