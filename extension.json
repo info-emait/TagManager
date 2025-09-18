@@ -82,6 +82,13 @@
                 "featureId": "#{Extension.Publisher}#.#{Extension.Id}#.#{Extension.Id}#-feature"
             }
         }]
+    }, {
+        "id": "#{Extension.Id}#-confirm",
+        "type": "ms.vss-web.external-content",
+        "description": "Confirm dialog",
+        "properties": {
+            "uri": "html/#{Extension.Id}#-confirm.html?v=#{Project.AssemblyInfo.Version}#"
+        }
     }],
     "files": [
         { "path": "html", "addressable": true },

@@ -89,6 +89,7 @@ define([
 
     /**
      * Open query for work items whith selected tag.
+     * 
      * @param {object} tag Tag.
      */
     Model.prototype.queryWorkItems = function (tag) {
@@ -96,6 +97,35 @@ define([
             "_a": "query",
             "wiql": `SELECT [System.Id], [System.WorkItemType], [System.Title], [System.Tags] FROM WorkItems where [System.TeamProject] = '${this.project.name}' AND [System.Tags] contains '${tag.name}'`
         })}`);
+    };
+
+
+    /**
+     * Deletes tag.
+     * 
+     * @param {object} tag Tag.
+     */
+    Model.prototype.deleteTag = function (tag) {
+        sdk.getService(api.CommonServiceIds.HostPageLayoutService).then((service) => {
+            service.openCustomDialog(`${sdk.getExtensionContext().id}.#{Extension.Id}#-confirm`, {
+                title: "Delete tag",
+                lightDismiss: false,
+                configuration: {
+                    tag: tag,
+                    message: `Do you want to delete the tag&nbsp;<b>${tag.name}</b>?`,
+                    height: 100,
+                    okText: "Delete",
+                    cancelText: "Cancel"
+                },
+                onClose: (result) => {
+                    console.warn("result: ", result);
+
+                    if (!result) {
+                        return;
+                    }
+                }
+            });
+        });
     };
 
 

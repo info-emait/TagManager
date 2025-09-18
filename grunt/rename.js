@@ -12,6 +12,7 @@ module.exports = function (grunt) {
         cssmin: {
             files: [
                 { src: ["wwwroot/css/tagmanager-hub.min.css"], dest: "wwwroot/css/tagmanager-hub.css" },
+                { src: ["wwwroot/css/tagmanager-confirm.min.css"], dest: "wwwroot/css/tagmanager-confirm.css" },
                 { src: ["wwwroot/css/azure-devops-ui.min.css"], dest: "wwwroot/css/azure-devops-ui.css" }
             ]
         }
