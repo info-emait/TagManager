@@ -120,14 +120,18 @@ define([
                     cancelText: "Cancel"
                 },
                 onClose: (result) => {
-                    console.warn("result: ", result);
-
                     if (!result) {
                         return;
                     }
 
-                    this.message(`Tag&nbsp;<b>${tag.name}</b>&nbsp;has been deleted.`);
-                    doc.querySelector(".bolt-messagecard").scrollIntoView(0, 0);
+                    fetch(`${this.path}${this.project.id}/_apis/wit/tags/${tag.id}?${new URLSearchParams({ "api-version": "7.0" })}`, this._getFetchParams("DELETE"))
+                        .then((response) => {
+                            if (response.ok) {
+                                this.message(`Tag&nbsp;<b>${tag.name}</b>&nbsp;has been deleted.`);
+                                doc.querySelector(".bolt-messagecard").scrollIntoView(0, 0);
+                                this.init();
+                            }
+                        });
                 }
             });
         });
