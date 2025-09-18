@@ -61,9 +61,9 @@
                                                     <div class="bolt-table-cell-content-reveal flex-row justify-center">
                                                         <div class="bolt-table-button-more bolt-expandable-button inline-flex-row">
                                                             <button class="icon-only bolt-button bolt-icon-button enabled subtle icon-only bolt-focus-treatment" role="button" tabindex="-1" type="button" title="Query for work items"
-                                                                    data-bind="click: () => console.warn('query for work items')">
+                                                                    data-bind="click: $root.queryWorkItems.bind($root)">
                                                                 <span class="fluent-icons-enabled">
-                                                                    <span class="small left-icon flex-noshrink fabric-icon ms-Icon--Edit medium"></span>
+                                                                    <span class="small left-icon flex-noshrink fabric-icon ms-Icon--QueryList medium"></span>
                                                                 </span>
                                                             </button>
                                                         </div>

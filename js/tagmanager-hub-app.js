@@ -81,6 +81,18 @@ define([
 
 
     /**
+     * Open query for work items whith selected tag.
+     * @param {object} tag Tag.
+     */
+    Model.prototype.queryWorkItems = function (tag) {
+        this.openNewWindow(`${this.path}${this.project.name}/_workitems?${new URLSearchParams({ 
+            "_a": "query",
+            "wiql": `SELECT [System.Id], [System.WorkItemType], [System.Title], [System.Tags] FROM WorkItems where [System.TeamProject] = '${this.project.name}' AND [System.Tags] contains '${tag.name}'`
+        })}`);
+    };
+
+
+    /**
      * Dispose.
      */
     Model.prototype.dispose = function () {
