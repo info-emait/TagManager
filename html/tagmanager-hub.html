@@ -22,6 +22,7 @@
                                     <colgroup>
                                         <col style="width: 8px" />
                                         <col style="width: 100%" />
+                                        <col style="width: 140px"/>
                                         <col style="width: 42px"/>
                                         <col style="width: 8px" />
                                     </colgroup>
@@ -37,7 +38,16 @@
                                                     </div>
                                                 </div>
                                             </th>
-                                            <th class="bolt-table-header-cell col-header-5">
+                                            <th role="columnheader" class="bolt-table-header-cell col-header-1" tabindex="1">
+                                                <div class="bolt-table-header-cell-content flex-row">
+                                                    <div class="scroll-hidden">
+                                                        <div class="bolt-table-header-cell-text text-ellipsis body-s">
+                                                            <span>Work Item Count</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th class="bolt-table-header-cell col-header-2">
                                                 <span class="visually-hidden">More actions</span>
                                             </th>
                                             <th role="presentation" class="bolt-table-header-border"></th>
@@ -45,17 +55,20 @@
                                     </thead>
                                     <tbody class="relative">
                                         <tr class="bolt-list-row-spacer invisible" role="presentation">
-                                            <td class="bolt-list-cell-spacer invisible" colspan="4" style="height: 0px"></td>
+                                            <td class="bolt-list-cell-spacer invisible" colspan="5" style="height: 0px"></td>
                                         </tr>
                                         <tr class="bolt-list-row-spacer invisible" role="presentation">
-                                            <td class="bolt-list-cell-spacer invisible" colspan="4" style="height: 0px"></td>
+                                            <td class="bolt-list-cell-spacer invisible" colspan="5" style="height: 0px"></td>
                                         </tr>
                                         <!-- ko foreach: tags -->
                                             <tr class="bolt-table-row bolt-list-row single-click-activation" role="row" tabindex="-1"
                                                 data-bind="attr: { 'data-id': id }, css: { 'first-row': $index() === 0 }">
                                                 <td class="bolt-table-cell-compact bolt-table-cell bolt-list-cell bolt-table-spacer-cell" role="presentation"></td>
                                                 <td class="bolt-table-cell bolt-list-cell" role="gridcell">
-                                                    <my-columntext params="value: $data.name"></my-columntext>
+                                                    <my-columntext params="value: $data.name, classes: 'font-weight-semibold'"></my-columntext>
+                                                </td>   
+                                                <td class="bolt-table-cell bolt-list-cell" role="gridcell">
+                                                    <my-columntext params="value: $data.count"></my-columntext>
                                                 </td>                                                
                                                 <td class="bolt-table-cell-side-action bolt-table-cell bolt-list-cell">
                                                     <div class="bolt-table-cell-content-reveal flex-row justify-center">
@@ -73,10 +86,10 @@
                                             </tr>
                                         <!-- /ko -->
                                         <tr class="bolt-list-row-spacer invisible" role="presentation">
-                                            <td class="bolt-list-cell-spacer invisible" colspan="4" style="height: 0px"></td>
+                                            <td class="bolt-list-cell-spacer invisible" colspan="5" style="height: 0px"></td>
                                         </tr>
                                         <tr class="bolt-list-row-spacer invisible" role="presentation">
-                                            <td class="bolt-list-cell-spacer invisible" colspan="4" style="height: 0px"></td>
+                                            <td class="bolt-list-cell-spacer invisible" colspan="5" style="height: 0px"></td>
                                         </tr>
                                     </tbody>
                                 </table>

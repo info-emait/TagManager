@@ -65,6 +65,7 @@ define([
                     return;
                 }
 
+                tags.value.forEach((t) => t.count = ko.observable(""));
                 this.tags(tags.value);
             });
     };
