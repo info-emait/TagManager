@@ -67,6 +67,12 @@ define([
 
                 tags.value.forEach((t) => t.count = ko.observable(""));
                 this.tags(tags.value);
+
+                const client = api.getClient(witApi.WorkItemTrackingRestClient);
+                return Promise.all(tags.value.map((t) => client.queryByWiql({ query: `SELECT [System.Id] FROM WorkItems WHERE [System.TeamProject] = @Project and [System.Tags] CONTAINS '${t.name}'` }, this.project.id)));
+            })
+            .then((response) => {
+                response.forEach((r, i) => this.tags()[i].count(r.workItems.length));
             });
     };
 
