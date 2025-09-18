@@ -6,7 +6,8 @@ define([
     "api/index",
     "api/WorkItemTracking/index",
     "components/header",
-    "components/zerodata"
+    "components/zerodata",
+    "components/column-text"
 ], (module, require, ko, sdk, api, witApi) => {
     //#region [ Fields ]
 
