@@ -34,6 +34,7 @@ define([
         this.path = null;
 
         this.isLoading = ko.observable(true);
+        this.tags = ko.observableArray([]);
     };
 
     //#endregion
@@ -53,10 +54,14 @@ define([
             })
             .then((token) => {
                 this.token = token;
-                // return fetch(this.path + this.project.name + "/_apis/wit/workItemTypes", this._getFetchParams())
-                //     .then((response) => response.ok ? response.json() : null);
+                return fetch(`${this.path}${this.project.id}/_apis/wit/tags?${new URLSearchParams({ "api-version": "7.0" })}`, this._getFetchParams()).then((response) => response.ok ? response.json() : null);
+            })
+            .then((tags) => {
+                if (!tags.count || !tags.value.length) {
+                    return;
+                }
 
-                return;
+                this.tags(tags.value);
             });
     };
 
