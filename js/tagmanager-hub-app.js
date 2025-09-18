@@ -7,6 +7,7 @@ define([
     "api/WorkItemTracking/index",
     "components/header",
     "components/zerodata",
+    "components/message",
     "components/column-text"
 ], (module, require, ko, sdk, api, witApi) => {
     //#region [ Fields ]
@@ -37,6 +38,7 @@ define([
 
         this.isLoading = ko.observable(true);
         this.zero = ko.observable(null);
+        this.message = ko.observable("");
         this.tags = ko.observableArray([]);
     };
 
@@ -123,6 +125,9 @@ define([
                     if (!result) {
                         return;
                     }
+
+                    this.message(`Tag&nbsp;<b>${tag.name}</b>&nbsp;has been deleted.`);
+                    doc.querySelector(".bolt-messagecard").scrollIntoView(0, 0);
                 }
             });
         });
