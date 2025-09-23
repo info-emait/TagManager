@@ -80,6 +80,29 @@ define([
             })
             .then((response) => {
                 response.forEach((r, i) => this.tags()[i].count(r.workItems.length));
+
+                return data.getManager().then((manager) => manager.getValue("tags")).then((settings) => {
+                    if (!settings) {
+                        return [];
+                    }
+
+                    try {
+                        const parsed = JSON.parse(settings);
+                        return Array.isArray(parsed.tags) ? parsed.tags : [];
+                    } 
+                    catch (error) {
+                        return [];
+                    }
+                });
+            })
+            .then((response) => {
+                response.forEach((r) => {
+                    const tag = this.tags().find((t) => t.id === r.id);
+
+                    if (tag) {
+                        tag.description(r.description);
+                    }
+                });
             });
     };
 
