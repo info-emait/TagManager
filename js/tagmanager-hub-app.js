@@ -151,7 +151,7 @@ define([
                 configuration: {
                     tag: tag,
                     message: `Do you want to update the tag&nbsp;<b>${tag.name}</b>?`,
-                    height: 100,
+                    height: 224,
                     okText: "Update",
                     cancelText: "Cancel"
                 },
@@ -159,7 +159,7 @@ define([
                     if (!result) {
                         return;
                     }
-
+                    console.warn("result: ", result);
                     // fetch(`${this.path}${this.project.id}/_apis/wit/tags/${tag.id}?${new URLSearchParams({ "api-version": "7.0" })}`, this._getFetchParams("DELETE"))
                     //     .then((response) => {
                     //         if (response.ok) {

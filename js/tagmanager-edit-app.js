@@ -2,7 +2,8 @@ define([
     "module",
     "require",
     "knockout",
-    "sdk"
+    "sdk",
+    "components/input"
 ], (module, require, ko, sdk) => {
     //#region [ Fields ]
 
@@ -24,11 +25,16 @@ define([
         console.debug("TagManagerEditApp()");
 
         this.version = args.version;
-        this.tag = args.tag;
-        this.message = args.message;
         this.okText = args.okText || "Delete";
         this.cancelText = args.cancelText || "Cancel";
         this.dialog = args.dialog;
+
+        this.id = args.id;
+        this.url = args.url;
+        this.name = ko.observable(args.name);
+        this.nameError = ko.observable("");
+        this.description = ko.observable(args.description || "");
+        this.descriptionError = ko.observable("");
     };
 
     //#endregion
@@ -45,6 +51,16 @@ define([
 
 
     /**
+     * Validates form before sending.
+     */
+    Model.prototype.isValid = function() {
+        this.nameError(!this.name() || !this.name().length ? "Name is required" : "");
+
+        return !this.nameError().length;
+    };
+
+
+    /**
      * Cancels the dialog.
      */
     Model.prototype.cancel = function() {
@@ -56,7 +72,16 @@ define([
      * Confirms the dialog.
      */
     Model.prototype.ok = function() {
-        this.dialog.close(true);
+        if (!this.isValid()) {
+            return;
+        }
+        
+        this.dialog.close({
+            id: this.id,
+            url: this.url,
+            name: this.name(),
+            description: this.description()
+        });
     };
 
 
@@ -105,8 +130,9 @@ define([
                 // Create application model
                 const model = new Model({
                     version: cnf.version,
-                    tag: config.tag,
-                    message: config.message,
+                    id: config.tag.id,
+                    name: config.tag.name,
+                    url: config.tag.url,
                     dialog: config.dialog,
                     okText: config.okText,
                     cancelText: config.cancelText
