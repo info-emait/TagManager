@@ -5,11 +5,12 @@ define([
     "sdk",
     "api/index",
     "api/WorkItemTracking/index",
+    "services/data",
     "components/header",
     "components/zerodata",
     "components/message",
     "components/column-text"
-], (module, require, ko, sdk, api, witApi) => {
+], (module, require, ko, sdk, api, witApi, data) => {
     //#region [ Fields ]
 
     const global = (function () { return this; })();
@@ -67,7 +68,11 @@ define([
                     return;
                 }
 
-                tags.value.forEach((t) => t.count = ko.observable(""));
+                tags.value.forEach((t) => {
+                    t.count = ko.observable("");
+                    t.description = ko.observable("");
+                });
+
                 this.tags(tags.value);
 
                 const client = api.getClient(witApi.WorkItemTrackingRestClient);
@@ -159,15 +164,30 @@ define([
                     if (!result) {
                         return;
                     }
-                    console.warn("result: ", result);
-                    // fetch(`${this.path}${this.project.id}/_apis/wit/tags/${tag.id}?${new URLSearchParams({ "api-version": "7.0" })}`, this._getFetchParams("DELETE"))
-                    //     .then((response) => {
-                    //         if (response.ok) {
-                    //             this.message(`Tag&nbsp;<b>${tag.name}</b>&nbsp;has been deleted.`);
-                    //             doc.querySelector(".bolt-messagecard").scrollIntoView(0, 0);
-                    //             this.init();
-                    //         }
-                    //     });
+                    
+                    data.getManager().then((manager) => manager.getValue("tags")).then((settings) => {
+                        let tags = [];
+                        if (settings) {
+                            try {
+                                const parsed = JSON.parse(settings);
+                                if (Array.isArray(parsed.tags)) {
+                                    tags = parsed.tags;
+                                }
+                            } 
+                            catch (error) {}
+                        }
+
+                        const index = tags.findIndex((t) => t.id === result.id);
+                        if (index != -1) {
+                            tags[index].description = result.description;
+                        }
+                        else {
+                            tags.push(result);
+                        }
+
+                        data.getManager().then((manager) => manager.setValue("tags", JSON.stringify({ tags })));
+                    })
+                    .then(() => this.init());
                 }
             });
         });

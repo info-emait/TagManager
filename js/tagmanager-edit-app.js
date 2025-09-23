@@ -3,8 +3,9 @@ define([
     "require",
     "knockout",
     "sdk",
+    "services/data",
     "components/input"
-], (module, require, ko, sdk) => {
+], (module, require, ko, sdk, data) => {
     //#region [ Fields ]
 
     const global = (function () { return this; })();
@@ -123,15 +124,29 @@ define([
         });
 
         sdk.ready()
-            .then(() => {
+            .then(() => data.getManager())
+            .then((manager) => manager.getValue("tags"))
+            .then((settings) => {
                 const config = sdk.getConfiguration();
                 sdk.resize(undefined, config.height || 240);
+
+                let tag = null;
+                if (settings) {
+                    try {
+                        const parsed = JSON.parse(settings);
+                        if (Array.isArray(parsed.tags)) {
+                            tag = parsed.tags.find((t) => t.id === config.tag.id);
+                        }
+                    } 
+                    catch (error) {}
+                }
 
                 // Create application model
                 const model = new Model({
                     version: cnf.version,
                     id: config.tag.id,
                     name: config.tag.name,
+                    description: (tag || {}).description || "",
                     url: config.tag.url,
                     dialog: config.dialog,
                     okText: config.okText,
