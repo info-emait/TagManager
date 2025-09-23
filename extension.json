@@ -89,6 +89,13 @@
         "properties": {
             "uri": "html/#{Extension.Id}#-confirm.html?v=#{Project.AssemblyInfo.Version}#"
         }
+    }, {
+        "id": "#{Extension.Id}#-edit",
+        "type": "ms.vss-web.external-content",
+        "description": "Edit dialog",
+        "properties": {
+            "uri": "html/#{Extension.Id}#-edit.html?v=#{Project.AssemblyInfo.Version}#"
+        }
     }],
     "files": [
         { "path": "html", "addressable": true },

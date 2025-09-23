@@ -24,7 +24,7 @@
                                         <col style="width: 8px" />
                                         <col style="width: 100%" />
                                         <col style="width: 140px"/>
-                                        <col style="width: 84px"/>
+                                        <col style="width: 126px"/>
                                         <col style="width: 8px" />
                                     </colgroup>
                                     <thead>
@@ -74,13 +74,21 @@
                                                 <td class="bolt-table-cell-side-action bolt-table-cell bolt-list-cell">
                                                     <div class="bolt-table-cell-content-reveal flex-row justify-center">
                                                         <div class="bolt-table-button-more bolt-expandable-button inline-flex-row">
+                                                            <button class="icon-only bolt-button bolt-icon-button enabled subtle icon-only bolt-focus-treatment" role="button" tabindex="-1" type="button" title="Edit tag"
+                                                                    data-bind="click: $root.editTag.bind($root)">
+                                                                <span class="fluent-icons-enabled">
+                                                                    <span class="small left-icon flex-noshrink fabric-icon ms-Icon--Edit medium"></span>
+                                                                </span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="bolt-table-button-more bolt-expandable-button inline-flex-row">
                                                             <button class="icon-only bolt-button bolt-icon-button enabled subtle icon-only bolt-focus-treatment" role="button" tabindex="-1" type="button" title="Delete tag"
                                                                     data-bind="click: $root.deleteTag.bind($root)">
                                                                 <span class="fluent-icons-enabled">
                                                                     <span class="small left-icon flex-noshrink fabric-icon ms-Icon--Delete medium"></span>
                                                                 </span>
                                                             </button>
-                                                        </div>                                                        
+                                                        </div>
                                                         <div class="bolt-table-button-more bolt-expandable-button inline-flex-row">
                                                             <button class="icon-only bolt-button bolt-icon-button enabled subtle icon-only bolt-focus-treatment" role="button" tabindex="-1" type="button" title="Query for work items"
                                                                     data-bind="click: $root.queryWorkItems.bind($root)">

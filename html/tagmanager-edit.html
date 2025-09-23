@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <link href="../css/azure-devops-ui.css?v=#{Project.AssemblyInfo.Version}#" rel="stylesheet" type="text/css" />
+        <link href="../css/#{Extension.Id}#-edit.css?v=#{Project.AssemblyInfo.Version}#" rel="stylesheet" type="text/css" />
+    </head>
+    <body class="tagmanager-edit flex-column">
+        <div class="flex-row flex-grow full-width" data-bind="html: message"></div>
+        <div class="flex-wrap bolt-button-group flex-row margin-top-16 justify-end">
+            <button class="bolt-button enabled primary bolt-focus-treatment" role="button" tabindex="0" type="button"
+                    data-bind="click: $root.ok">
+                <span class="bolt-button-text body-m" data-bind="text: okText"></span>
+            </button>
+            <button class="bolt-button enabled bolt-focus-treatment" role="button" tabindex="0" type="button"
+                    data-bind="click: $root.cancel">
+                <span class="bolt-button-text body-m" data-bind="text: cancelText"></span>
+            </button>            
+        </div>
+        <script data-main="../js/#{Extension.Id}#-edit.js?v=#{Project.AssemblyInfo.Version}#" src="../js/libs/require.js"></script>
+    </body>
+</html>
