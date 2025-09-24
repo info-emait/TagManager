@@ -24,9 +24,9 @@
                                     <colgroup>
                                         <col style="width: 8px" />
                                         <col style="width: 240px" />
+                                        <col style="width: 168px"/>
                                         <col style="width: 140px"/>
                                         <col style="width: 100%" />
-                                        <col style="width: 168px"/>
                                         <col style="width: 8px" />
                                     </colgroup>
                                     <thead>
@@ -41,7 +41,10 @@
                                                     </div>
                                                 </div>
                                             </th>
-                                            <th role="columnheader" class="bolt-table-header-cell col-header-1" tabindex="1">
+                                            <th class="bolt-table-header-cell col-header-2">
+                                                <span class="visually-hidden">More actions</span>
+                                            </th>                                            
+                                            <th role="columnheader" class="bolt-table-header-cell col-header-3" tabindex="3">
                                                 <div class="bolt-table-header-cell-content flex-row">
                                                     <div class="scroll-hidden">
                                                         <div class="bolt-table-header-cell-text text-ellipsis body-s">
@@ -50,7 +53,7 @@
                                                     </div>
                                                 </div>
                                             </th>
-                                            <th role="columnheader" class="bolt-table-header-cell col-header-2" tabindex="2">
+                                            <th role="columnheader" class="bolt-table-header-cell col-header-4" tabindex="4">
                                                 <div class="bolt-table-header-cell-content flex-row">
                                                     <div class="scroll-hidden">
                                                         <div class="bolt-table-header-cell-text text-ellipsis body-s">
@@ -59,9 +62,6 @@
                                                     </div>
                                                 </div>
                                             </th>                                              
-                                            <th class="bolt-table-header-cell col-header-3">
-                                                <span class="visually-hidden">More actions</span>
-                                            </th>
                                             <th role="presentation" class="bolt-table-header-border"></th>
                                         </tr>
                                     </thead>
@@ -79,12 +79,6 @@
                                                 <td class="bolt-table-cell bolt-list-cell" role="gridcell">
                                                     <my-columntext params="value: $data.name, classes: 'font-weight-semibold'"></my-columntext>
                                                 </td>
-                                                <td class="bolt-table-cell bolt-list-cell" role="gridcell">
-                                                    <my-columntext params="value: $data.count"></my-columntext>
-                                                </td>
-                                                <td class="bolt-table-cell bolt-list-cell" role="gridcell">
-                                                    <my-columntext params="value: $data.description"></my-columntext>
-                                                </td>                                                
                                                 <td class="bolt-table-cell-side-action bolt-table-cell bolt-list-cell">
                                                     <div class="bolt-table-cell-content-reveal flex-row justify-center">
                                                         <div class="bolt-table-button-more bolt-expandable-button inline-flex-row">
@@ -120,7 +114,13 @@
                                                             </button>
                                                         </div>
                                                     </div>
+                                                </td>                                                
+                                                <td class="bolt-table-cell bolt-list-cell" role="gridcell">
+                                                    <my-columntext params="value: $data.count"></my-columntext>
                                                 </td>
+                                                <td class="bolt-table-cell bolt-list-cell" role="gridcell">
+                                                    <my-columntext params="value: $data.description"></my-columntext>
+                                                </td>                                                
                                                 <td class="bolt-table-cell-compact bolt-table-cell bolt-list-cell bolt-table-spacer-cell" role="presentation"></td>
                                             </tr>
                                         <!-- /ko -->
