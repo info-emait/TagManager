@@ -34,7 +34,8 @@ module.exports = function (grunt) {
             files: {
                 "wwwroot/css/tagmanager-hub.css": "less/tagmanager-hub.less",
                 "wwwroot/css/tagmanager-confirm.css": "less/tagmanager-confirm.less",
-                "wwwroot/css/tagmanager-edit.css": "less/tagmanager-edit.less"
+                "wwwroot/css/tagmanager-edit.css": "less/tagmanager-edit.less",
+                "wwwroot/css/tagmanager-merge.css": "less/tagmanager-merge.less"
             }
         }
     });

@@ -173,7 +173,26 @@ define([
      * @param {object} tag Tag.
      */
     Model.prototype.mergeTag = function (tag) {
-        console.warn("mergeTag: ", tag);
+        sdk.getService(api.CommonServiceIds.HostPageLayoutService).then((service) => {
+            service.openCustomDialog(`${sdk.getExtensionContext().id}.#{Extension.Id}#-merge`, {
+                title: `Merge tag ${tag.name} with`,
+                lightDismiss: false,
+                configuration: {
+                    source: tag,
+                    target: this.tags().filter((t) => t.id !== tag.id),
+                    height: 126,
+                    okText: "Merge",
+                    cancelText: "Cancel"
+                },
+                onClose: (result) => {
+                    if (!result) {
+                        return;
+                    }
+                    
+                    console.warn("result: ", result);
+                }
+            });
+        });
     };
 
 
@@ -190,7 +209,7 @@ define([
                 configuration: {
                     tag: tag,
                     message: `Do you want to update the tag&nbsp;<b>${tag.name}</b>?`,
-                    height: 224,
+                    height: 200,
                     okText: "Update",
                     cancelText: "Cancel"
                 },

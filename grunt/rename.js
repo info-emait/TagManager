@@ -14,6 +14,7 @@ module.exports = function (grunt) {
                 { src: ["wwwroot/css/tagmanager-hub.min.css"], dest: "wwwroot/css/tagmanager-hub.css" },
                 { src: ["wwwroot/css/tagmanager-confirm.min.css"], dest: "wwwroot/css/tagmanager-confirm.css" },
                 { src: ["wwwroot/css/tagmanager-edit.min.css"], dest: "wwwroot/css/tagmanager-edit.css" },
+                { src: ["wwwroot/css/tagmanager-merge.min.css"], dest: "wwwroot/css/tagmanager-merge.css" },
                 { src: ["wwwroot/css/azure-devops-ui.min.css"], dest: "wwwroot/css/azure-devops-ui.css" }
             ]
         }

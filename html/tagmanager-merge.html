@@ -3,10 +3,12 @@
     <head>
         <meta charset="utf-8" />
         <link href="../css/azure-devops-ui.css?v=#{Project.AssemblyInfo.Version}#" rel="stylesheet" type="text/css" />
-        <link href="../css/#{Extension.Id}#-confirm.css?v=#{Project.AssemblyInfo.Version}#" rel="stylesheet" type="text/css" />
+        <link href="../css/#{Extension.Id}#-merge.css?v=#{Project.AssemblyInfo.Version}#" rel="stylesheet" type="text/css" />
     </head>
-    <body class="tagmanager-confirm flex-column">
-        <div class="flex-row flex-grow full-width margin-bottom-16" data-bind="html: message"></div>
+    <body class="tagmanager-merge flex-column">
+        <div class="flex-row full-width flex-grow margin-bottom-16">
+            <my-input params="label: 'Target tag:', value: targetId, error: targetIdError, type: 'select', options: tags, optionsCaption: '... select tag', optionsText: 'name', optionsValue: 'id', tabindex: 1, classes: 'full-width bolt-textfield--select'"></my-input>
+        </div>
         <div class="flex-wrap bolt-button-group flex-row margin-top-16 justify-end">
             <button class="bolt-button enabled primary bolt-focus-treatment" role="button" tabindex="0" type="button"
                     data-bind="click: $root.ok">
@@ -17,6 +19,6 @@
                 <span class="bolt-button-text body-m" data-bind="text: cancelText"></span>
             </button>            
         </div>
-        <script data-main="../js/#{Extension.Id}#-confirm.js?v=#{Project.AssemblyInfo.Version}#" src="../js/libs/require.js"></script>
+        <script data-main="../js/#{Extension.Id}#-merge.js?v=#{Project.AssemblyInfo.Version}#" src="../js/libs/require.js"></script>
     </body>
 </html>

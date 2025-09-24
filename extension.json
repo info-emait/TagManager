@@ -96,6 +96,13 @@
         "properties": {
             "uri": "html/#{Extension.Id}#-edit.html?v=#{Project.AssemblyInfo.Version}#"
         }
+    }, {
+        "id": "#{Extension.Id}#-merge",
+        "type": "ms.vss-web.external-content",
+        "description": "Merge dialog",
+        "properties": {
+            "uri": "html/#{Extension.Id}#-merge.html?v=#{Project.AssemblyInfo.Version}#"
+        }
     }],
     "files": [
         { "path": "html", "addressable": true },
