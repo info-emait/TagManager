@@ -2,8 +2,8 @@
     "manifestVersion": 1,
     "id": "#{Extension.Id}#",
     "version": "#{Project.AssemblyInfo.Version}#",
-    "name": "Tag Manager",
-    "description": "Tag Manager is an extension for managing and editing tags in Azure DevOps. It helps users organize, update, and maintain tags efficiently across projects and work items.",
+    "name": "Tags Manager",
+    "description": "Tags Manager is an extension for managing and editing tags in Azure DevOps. It helps users organize, update, and maintain tags efficiently across projects and work items.",
     "publisher": "#{Extension.Publisher}#",
     "public": true,
     "categories": [
@@ -54,9 +54,9 @@
         "targets": [
             "ms.vss-web.managed-features-onprem"
         ],
-        "description": "Tag Manager feature adds the new Tags hub to the Boards hub.",
+        "description": "Tags Manager feature adds the new Tags hub to the Boards hub.",
         "properties": {
-            "name": "Tag Manager",
+            "name": "Tags Manager",
             "userConfigurable": true,
             "hostConfigurable": true,
             "defaultState": true,
@@ -116,6 +116,7 @@
     ],
     "scopes":[
         "vso.work",
-        "vso.work_write"
+        "vso.work_write",
+        "vso.work_full"
     ]
 }

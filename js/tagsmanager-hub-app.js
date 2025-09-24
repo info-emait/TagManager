@@ -28,7 +28,7 @@ define([
      * @param {object} args Arguments.
      */
     const Model = function (args) {
-        console.debug("TagManagerHubApp()");
+        console.debug("TagsManagerHubApp()");
 
         this.version = args.version;
         this.user = args.user;
@@ -80,6 +80,10 @@ define([
                 return Promise.all(tags.value.map((t) => client.queryByWiql({ query: `SELECT [System.Id] FROM WorkItems WHERE [System.TeamProject] = @Project and [System.Tags] CONTAINS '${t.name}'` }, this.project.id)));
             })
             .then((response) => {
+                if (!response) {
+                    return;
+                }
+
                 response.forEach((r, i) => this.tags()[i].count(r.workItems.length));
 
                 return data.getManager().then((manager) => manager.getValue("tags")).then((settings) => {
@@ -97,6 +101,10 @@ define([
                 });
             })
             .then((response) => {
+                if (!response) {
+                    return;
+                }
+                
                 response.forEach((r) => {
                     const tag = this.tags().find((t) => t.id === r.id);
 
@@ -175,7 +183,7 @@ define([
     Model.prototype.mergeTag = function (tag) {
         sdk.getService(api.CommonServiceIds.HostPageLayoutService).then((service) => {
             service.openCustomDialog(`${sdk.getExtensionContext().id}.#{Extension.Id}#-merge`, {
-                title: `Merge tag ${tag.name} with`,
+                title: `Merge tag "${tag.name}" with`,
                 lightDismiss: false,
                 configuration: {
                     source: tag,
@@ -189,7 +197,50 @@ define([
                         return;
                     }
                     
-                    console.warn("result: ", result);
+                    // Get work items with source tag
+                    const client = api.getClient(witApi.WorkItemTrackingRestClient);
+                    client.queryByWiql({ query: `SELECT [System.Id], [System.Tags] FROM WorkItems WHERE [System.TeamProject] = @Project and [System.Tags] CONTAINS '${result.source.name}'` }, this.project.id)
+                        .then((wits) => {
+                            const ids = wits.workItems.map((w) => w.id);
+                            const chunk = 200;
+                            const xhrs = [];
+                            let i;
+                            let j;
+                            for (i = 0, j = ids.length; i < j; i += chunk) {
+                                xhrs.push(client.getWorkItems(ids.slice(i, i + chunk), this.project.id, null, null, "all"));
+                            }
+
+                            // Load work items
+                            return Promise.all(xhrs).then((chunks) => Array.prototype.concat.apply([], chunks));
+                        })
+                        .then((wits) => {
+                            const patches = wits.map((w) => ({
+                                method: "PATCH",
+                                uri: `/_apis/wit/workItems/${w.id}?${new URLSearchParams({ "api-version": "7.0" })}`,
+                                headers: {
+                                    "Content-Type": "application/json-patch+json"
+                                },
+                                body: [
+                                    { op: "test", path: "/rev", value: w.rev }, 
+                                    { op: "replace", path: "/fields/System.Tags", value: [...(w.fields["System.Tags"] || "").split("; ").filter((t) => t !== result.source.name), result.target.name].join("; ") }
+                                ]
+                            }));
+                            
+                            const params = this._getFetchParams("POST");
+                            params.headers["Content-Type"] = "application/json";
+                            params.body = JSON.stringify(patches);
+                            return fetch(`${this.path}_apis/wit/$batch?${new URLSearchParams({ "api-version": "7.0" })}`, params);
+                        })
+                        .then((response) => {
+                            if (response.ok) {
+                                this.message(`Tag&nbsp;<b>${result.source.name}</b>&nbsp;has been merged with tag&nbsp;<b>${result.target.name}</b>.`);
+                                doc.querySelector(".bolt-messagecard").scrollIntoView(0, 0);
+                                return null;
+                            }
+                            
+                            return ((response.status === 401) ? Promise.resolve({ message: "Access denied! Contact your administrator." }): response.json()).then((err) => this.error(err.message));
+                        })
+                        .then(() => this.init());
                 }
             });
         });
@@ -266,7 +317,7 @@ define([
      * Dispose.
      */
     Model.prototype.dispose = function () {
-        console.log("~TagManagerHubApp()");
+        console.log("~TagsManagerHubApp()");
     };
 
     //#endregion
@@ -334,7 +385,7 @@ define([
                     user: sdk.getUser(),
                     project: project
                 });
-                console.debug("TagManagerHubApp : ready() : %o", model);
+                console.debug("TagsManagerHubApp : ready() : %o", model);
                 
                 // Register hub
                 sdk.register("#{Extension.Id}#-hub", () => model);
@@ -344,7 +395,7 @@ define([
                 sdk.notifyLoadSucceeded();
                 model.init().then(() => {
                     model.isLoading(false);
-                    console.debug("TagManagerHubApp is running.");
+                    console.debug("TagsManagerHubApp is running.");
                 });
         });
     });

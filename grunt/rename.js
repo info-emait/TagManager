@@ -11,10 +11,10 @@ module.exports = function (grunt) {
         },
         cssmin: {
             files: [
-                { src: ["wwwroot/css/tagmanager-hub.min.css"], dest: "wwwroot/css/tagmanager-hub.css" },
-                { src: ["wwwroot/css/tagmanager-confirm.min.css"], dest: "wwwroot/css/tagmanager-confirm.css" },
-                { src: ["wwwroot/css/tagmanager-edit.min.css"], dest: "wwwroot/css/tagmanager-edit.css" },
-                { src: ["wwwroot/css/tagmanager-merge.min.css"], dest: "wwwroot/css/tagmanager-merge.css" },
+                { src: ["wwwroot/css/tagsmanager-hub.min.css"], dest: "wwwroot/css/tagsmanager-hub.css" },
+                { src: ["wwwroot/css/tagsmanager-confirm.min.css"], dest: "wwwroot/css/tagsmanager-confirm.css" },
+                { src: ["wwwroot/css/tagsmanager-edit.min.css"], dest: "wwwroot/css/tagsmanager-edit.css" },
+                { src: ["wwwroot/css/tagsmanager-merge.min.css"], dest: "wwwroot/css/tagsmanager-merge.css" },
                 { src: ["wwwroot/css/azure-devops-ui.min.css"], dest: "wwwroot/css/azure-devops-ui.css" }
             ]
         }

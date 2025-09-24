@@ -2,10 +2,8 @@ define([
     "module",
     "require",
     "knockout",
-    "sdk",
-    "services/data",
-    "components/input"
-], (module, require, ko, sdk, data) => {
+    "sdk"
+], (module, require, ko, sdk) => {
     //#region [ Fields ]
 
     const global = (function () { return this; })();
@@ -23,19 +21,14 @@ define([
      * @param {object} args Arguments.
      */
     const Model = function (args) {
-        console.debug("TagManagerEditApp()");
+        console.debug("TagsManagerConfirmApp()");
 
         this.version = args.version;
+        this.tag = args.tag;
+        this.message = args.message;
         this.okText = args.okText || "Delete";
         this.cancelText = args.cancelText || "Cancel";
         this.dialog = args.dialog;
-
-        this.id = args.id;
-        this.url = args.url;
-        this.name = ko.observable(args.name);
-        this.nameError = ko.observable("");
-        this.description = ko.observable(args.description || "");
-        this.descriptionError = ko.observable("");
     };
 
     //#endregion
@@ -52,16 +45,6 @@ define([
 
 
     /**
-     * Validates form before sending.
-     */
-    Model.prototype.isValid = function() {
-        this.nameError(!this.name() || !this.name().length ? "Name is required" : "");
-
-        return !this.nameError().length;
-    };
-
-
-    /**
      * Cancels the dialog.
      */
     Model.prototype.cancel = function() {
@@ -73,28 +56,7 @@ define([
      * Confirms the dialog.
      */
     Model.prototype.ok = function() {
-        if (!this.isValid()) {
-            this.resize();
-            return;
-        }
-        
-        this.dialog.close({
-            id: this.id,
-            url: this.url,
-            name: this.name(),
-            description: this.description()
-        });
-    };
-
-
-    /**
-     * Resizes the dialog.
-     */
-    Model.prototype.resize = function () {
-        setTimeout(() => {
-            const view = doc.querySelector(".tagmanager-edit");
-            sdk.resize(440, Math.max(view.offsetHeight, view.scrollHeight));
-        }, 1);
+        this.dialog.close(true);
     };
 
 
@@ -102,7 +64,7 @@ define([
      * Dispose.
      */
     Model.prototype.dispose = function () {
-        console.log("~TagManagerEditApp()");
+        console.log("~TagsManagerConfirmApp()");
     };
 
     //#endregion
@@ -136,43 +98,28 @@ define([
         });
 
         sdk.ready()
-            .then(() => data.getManager())
-            .then((manager) => manager.getValue("tags"))
-            .then((settings) => {
+            .then(() => {
                 const config = sdk.getConfiguration();
                 sdk.resize(undefined, config.height || 240);
-
-                let tag = null;
-                if (settings) {
-                    try {
-                        const parsed = JSON.parse(settings);
-                        if (Array.isArray(parsed.tags)) {
-                            tag = parsed.tags.find((t) => t.id === config.tag.id);
-                        }
-                    } 
-                    catch (error) {}
-                }
 
                 // Create application model
                 const model = new Model({
                     version: cnf.version,
-                    id: config.tag.id,
-                    name: config.tag.name,
-                    description: (tag || {}).description || "",
-                    url: config.tag.url,
+                    tag: config.tag,
+                    message: config.message,
                     dialog: config.dialog,
                     okText: config.okText,
                     cancelText: config.cancelText
                 });
-                console.debug("TagManagerEditApp : ready() : %o", model);
+                console.debug("TagsManagerConfirmApp : ready() : %o", model);
                 
                 // Register dialog
-                sdk.register("#{Extension.Id}#-edit", () => model);
+                sdk.register("#{Extension.Id}#-confirm", () => model);
 
                 // Start application and init application
                 ko.applyBindings(model, doc.body);
                 sdk.notifyLoadSucceeded();
-                model.init().then(() => console.debug("Tag Manager edit is running."));
+                model.init().then(() => console.debug("Tags Manager confirm is running."));
             });
     });
 

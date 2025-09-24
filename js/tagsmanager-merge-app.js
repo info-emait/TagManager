@@ -2,7 +2,8 @@ define([
     "module",
     "require",
     "knockout",
-    "sdk"
+    "sdk",
+    "components/input"
 ], (module, require, ko, sdk) => {
     //#region [ Fields ]
 
@@ -21,14 +22,18 @@ define([
      * @param {object} args Arguments.
      */
     const Model = function (args) {
-        console.debug("TagManagerConfirmApp()");
+        console.debug("TagsManagerMergeApp()");
 
         this.version = args.version;
-        this.tag = args.tag;
-        this.message = args.message;
         this.okText = args.okText || "Delete";
         this.cancelText = args.cancelText || "Cancel";
         this.dialog = args.dialog;
+
+        this.id = args.id;
+        this.name = args.name;
+        this.tags = args.tags;
+        this.targetId = ko.observable();
+        this.targetIdError = ko.observable("");
     };
 
     //#endregion
@@ -45,6 +50,16 @@ define([
 
 
     /**
+     * Validates form before sending.
+     */
+    Model.prototype.isValid = function() {
+        this.targetIdError(!this.targetId() || !this.targetId().length ? "You have to select the target tag" : "");
+
+        return !this.targetIdError().length;
+    };
+
+
+    /**
      * Cancels the dialog.
      */
     Model.prototype.cancel = function() {
@@ -56,15 +71,37 @@ define([
      * Confirms the dialog.
      */
     Model.prototype.ok = function() {
-        this.dialog.close(true);
+        if (!this.isValid()) {
+            this.resize();
+            return;
+        }
+
+        this.dialog.close({
+            source: {
+                id: this.id,
+                name: this.name
+            },
+            target: this.tags.find((t) => t.id === this.targetId())
+        });
     };
+
+
+    /**
+     * Resizes the dialog.
+     */
+    Model.prototype.resize = function () {
+        setTimeout(() => {
+            const view = doc.querySelector(".tagsmanager-merge");
+            sdk.resize(440, Math.max(view.offsetHeight, view.scrollHeight));
+        }, 1);
+    };    
 
 
     /**
      * Dispose.
      */
     Model.prototype.dispose = function () {
-        console.log("~TagManagerConfirmApp()");
+        console.log("~TagsManagerMergeApp()");
     };
 
     //#endregion
@@ -105,21 +142,22 @@ define([
                 // Create application model
                 const model = new Model({
                     version: cnf.version,
-                    tag: config.tag,
-                    message: config.message,
+                    id: config.source.id,
+                    name: config.source.name,
+                    tags: config.target,
                     dialog: config.dialog,
                     okText: config.okText,
                     cancelText: config.cancelText
                 });
-                console.debug("TagManagerConfirmApp : ready() : %o", model);
+                console.debug("TagsManagerMergeApp : ready() : %o", model);
                 
                 // Register dialog
-                sdk.register("#{Extension.Id}#-confirm", () => model);
+                sdk.register("#{Extension.Id}#-merge", () => model);
 
                 // Start application and init application
                 ko.applyBindings(model, doc.body);
                 sdk.notifyLoadSucceeded();
-                model.init().then(() => console.debug("Tag Manager confirm is running."));
+                model.init().then(() => console.debug("Tags Manager merge is running."));
             });
     });
 

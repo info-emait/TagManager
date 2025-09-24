@@ -1,9 +1,9 @@
-![Tag Manager](img/logo.png)
+![Tags Manager](img/logo.png)
 
 # About the extension
 TODO.
 
-![Tag Manager Example](img/screenshot4.png)
+![Tags Manager Example](img/screenshot4.png)
 
 # Features
 TODO

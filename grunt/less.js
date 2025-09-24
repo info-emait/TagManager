@@ -32,10 +32,10 @@ module.exports = function (grunt) {
         },
         src: {
             files: {
-                "wwwroot/css/tagmanager-hub.css": "less/tagmanager-hub.less",
-                "wwwroot/css/tagmanager-confirm.css": "less/tagmanager-confirm.less",
-                "wwwroot/css/tagmanager-edit.css": "less/tagmanager-edit.less",
-                "wwwroot/css/tagmanager-merge.css": "less/tagmanager-merge.less"
+                "wwwroot/css/tagsmanager-hub.css": "less/tagsmanager-hub.less",
+                "wwwroot/css/tagsmanager-confirm.css": "less/tagsmanager-confirm.less",
+                "wwwroot/css/tagsmanager-edit.css": "less/tagsmanager-edit.less",
+                "wwwroot/css/tagsmanager-merge.css": "less/tagsmanager-merge.less"
             }
         }
     });

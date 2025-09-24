@@ -3,8 +3,9 @@ define([
     "require",
     "knockout",
     "sdk",
+    "services/data",
     "components/input"
-], (module, require, ko, sdk) => {
+], (module, require, ko, sdk, data) => {
     //#region [ Fields ]
 
     const global = (function () { return this; })();
@@ -22,7 +23,7 @@ define([
      * @param {object} args Arguments.
      */
     const Model = function (args) {
-        console.debug("TagManagerMergeApp()");
+        console.debug("TagsManagerEditApp()");
 
         this.version = args.version;
         this.okText = args.okText || "Delete";
@@ -30,9 +31,11 @@ define([
         this.dialog = args.dialog;
 
         this.id = args.id;
-        this.tags = args.tags;
-        this.targetId = ko.observable();
-        this.targetIdError = ko.observable("");
+        this.url = args.url;
+        this.name = ko.observable(args.name);
+        this.nameError = ko.observable("");
+        this.description = ko.observable(args.description || "");
+        this.descriptionError = ko.observable("");
     };
 
     //#endregion
@@ -52,9 +55,9 @@ define([
      * Validates form before sending.
      */
     Model.prototype.isValid = function() {
-        this.targetIdError(!this.targetId() || !this.targetId().length ? "You have to select the target tag" : "");
+        this.nameError(!this.name() || !this.name().length ? "Name is required" : "");
 
-        return !this.targetIdError().length;
+        return !this.nameError().length;
     };
 
 
@@ -74,10 +77,12 @@ define([
             this.resize();
             return;
         }
-
+        
         this.dialog.close({
             id: this.id,
-            target: this.tags.find((t) => t.id === this.targetId())
+            url: this.url,
+            name: this.name(),
+            description: this.description()
         });
     };
 
@@ -87,17 +92,17 @@ define([
      */
     Model.prototype.resize = function () {
         setTimeout(() => {
-            const view = doc.querySelector(".tagmanager-merge");
+            const view = doc.querySelector(".tagsmanager-edit");
             sdk.resize(440, Math.max(view.offsetHeight, view.scrollHeight));
         }, 1);
-    };    
+    };
 
 
     /**
      * Dispose.
      */
     Model.prototype.dispose = function () {
-        console.log("~TagManagerMergeApp()");
+        console.log("~TagsManagerEditApp()");
     };
 
     //#endregion
@@ -131,28 +136,43 @@ define([
         });
 
         sdk.ready()
-            .then(() => {
+            .then(() => data.getManager())
+            .then((manager) => manager.getValue("tags"))
+            .then((settings) => {
                 const config = sdk.getConfiguration();
                 sdk.resize(undefined, config.height || 240);
+
+                let tag = null;
+                if (settings) {
+                    try {
+                        const parsed = JSON.parse(settings);
+                        if (Array.isArray(parsed.tags)) {
+                            tag = parsed.tags.find((t) => t.id === config.tag.id);
+                        }
+                    } 
+                    catch (error) {}
+                }
 
                 // Create application model
                 const model = new Model({
                     version: cnf.version,
-                    id: config.source.id,
-                    tags: config.target,
+                    id: config.tag.id,
+                    name: config.tag.name,
+                    description: (tag || {}).description || "",
+                    url: config.tag.url,
                     dialog: config.dialog,
                     okText: config.okText,
                     cancelText: config.cancelText
                 });
-                console.debug("TagManagerMergeApp : ready() : %o", model);
+                console.debug("TagsManagerEditApp : ready() : %o", model);
                 
                 // Register dialog
-                sdk.register("#{Extension.Id}#-merge", () => model);
+                sdk.register("#{Extension.Id}#-edit", () => model);
 
                 // Start application and init application
                 ko.applyBindings(model, doc.body);
                 sdk.notifyLoadSucceeded();
-                model.init().then(() => console.debug("Tag Manager merge is running."));
+                model.init().then(() => console.debug("Tags Manager edit is running."));
             });
     });
 
