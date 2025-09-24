@@ -168,6 +168,16 @@ define([
 
 
     /**
+     * Merges tag with another one.
+     * 
+     * @param {object} tag Tag.
+     */
+    Model.prototype.mergeTag = function (tag) {
+        console.warn("mergeTag: ", tag);
+    };
+
+
+    /**
      * Edits tag.
      * 
      * @param {object} tag Tag.
