@@ -10,6 +10,7 @@
             <my-header params="text: 'Tags'"></my-header>
             <div class="page-content flex-column flex-grow">
                 <my-message params="text: message"></my-message>
+                <my-message params="text: error, severity: 'error'"></my-message>
                 <div data-bind="with: zero">
                     <my-zerodata params="title: title, text: text"></my-zerodata>
                 </div>

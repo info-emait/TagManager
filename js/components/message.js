@@ -12,6 +12,7 @@ define([
         console.debug("Message()");
 
         this.text = ko.isObservable(args.text) ? args.text : ko.observable(args.text || "");
+        this.severity = args.severity || "info";
     };
 
     //#endregion
@@ -47,7 +48,11 @@ define([
         `<div class="flex-row margin-top-16" data-bind="visible: text().length">
             <!-- ko if: text().length -->
             <div class="flex-self-stretch bolt-messagecard bolt-card flex-column depth-8 bolt-card-white full-width">
-                <div class="bolt-messagebar severity-info">
+                <div class="bolt-messagebar" data-bind="css: {
+                                                            'severity-info': severity === 'info',
+                                                            'severity-warning': severity === 'warning',
+                                                            'severity-error': severity === 'error'
+                                                        }">
                     <div class="bolt-breakpoint relative">
                         <div class="bolt-breakpoint-container absolute-fill scroll-hidden">
                             <div class="bolt-breakpoint-observation absolute"></div>
@@ -57,7 +62,12 @@ define([
                         <div class="flex-row">
                             <div class="bolt-messagebar-icons flex-row">
                                 <span class="fluent-icons-enabled">
-                                    <span aria-hidden="true" class="bolt-messagebar-icon medium flex-noshrink fabric-icon ms-Icon--Error"></span>
+                                    <span aria-hidden="true" class="bolt-messagebar-icon medium flex-noshrink fabric-icon"
+                                          data-bind="css: {
+                                                        'ms-Icon--Info': severity === 'info',
+                                                        'ms-Icon--Warning': severity === 'warning',
+                                                        'ms-Icon--ErrorBadge': severity === 'error'
+                                                     }"></span>
                                 </span>
                             </div>
                             <div class="bolt-messagebar-message flex-row flex-wrap flex-grow flex-shrink flex-center body-m word-break" data-bind="html: text"></div>

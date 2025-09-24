@@ -40,6 +40,7 @@ define([
         this.isLoading = ko.observable(true);
         this.zero = ko.observable(null);
         this.message = ko.observable("");
+        this.error = ko.observable("");
         this.tags = ko.observableArray([]);
     };
 
@@ -214,12 +215,16 @@ define([
                         const params = this._getFetchParams("PATCH");
                         params.headers["Content-Type"] = "application/json";
                         params.body = JSON.stringify(result);
-                        return fetch(`${this.path}${this.project.id}/_apis/wit/tags/${result.id}?${new URLSearchParams({ "api-version": "7.0" })}`, params).then((response) => {
-                            if (response.ok) {
-                                this.message(`Tag&nbsp;<b>${result.name}</b>&nbsp;has been updated.`);
-                                doc.querySelector(".bolt-messagecard").scrollIntoView(0, 0);
-                            }
-                        });
+                        return fetch(`${this.path}${this.project.id}/_apis/wit/tags/${result.id}?${new URLSearchParams({ "api-version": "7.0" })}`, params)
+                            .then((response) => {
+                                if (response.ok) {
+                                    this.message(`Tag&nbsp;<b>${result.name}</b>&nbsp;has been updated.`);
+                                    doc.querySelector(".bolt-messagecard").scrollIntoView(0, 0);
+                                    return null;
+                                }
+                                
+                                return response.json().then((err) => this.error(err.message));
+                            });
                     })
                     .then(() => this.init());
                 }
