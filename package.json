@@ -1,7 +1,7 @@
 {
     "name": "tagsmanager",
     "description": "TagsManager",
-    "version": "#{Project.AssemblyInfo.Version}#",
+    "version": "1.0.0",
     "author": "emait",
     "private": true,
     "devDependencies": {
