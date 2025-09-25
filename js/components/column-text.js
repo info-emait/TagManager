@@ -43,9 +43,9 @@ define([
     //#region [ Template ]
 
     Model.template =
-        `<div class="font-size-m bolt-table-cell-content flex-row flex-center" data-bind="class: classes">
-            <div class="flex-row wrap-text">
-                <span data-bind="text: format(value())"></span>
+        `<div class="font-size-m bolt-table-cell-content flex-row flex-center full-width" data-bind="class: classes">
+            <div class="flex-row wrap-text full-width">
+                <span data-bind="text: format(value())" class="full-width text-ellipsis"></span>
             </div>
         </div>`;
 
